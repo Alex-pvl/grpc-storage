@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: grpc-storage
+
+grpc:
+  server:
+    port: 8081
+
+application:
+  tarantool:
+    credentials:
+      username: ${tarantool.credentials.username}
+      password: ${tarantool.credentials.password}
+    database:
+      host: ${tarantool.database.host}
+      port: ${tarantool.database.port}
+      space-name: ${tarantool.database.space-name}

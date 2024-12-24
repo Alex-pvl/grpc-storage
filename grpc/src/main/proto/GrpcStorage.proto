@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+option java_package = "ru.alexpvl.grpcstorage.grpc";
+option java_multiple_files = true;
+
+message PutRequest {
+  string key = 1;
+  bytes value = 2;
+}
+
+message GetRequest {
+  string key = 1;
+}
+
+message DeleteRequest {
+  string key = 1;
+}
+
+message RangeRequest {
+  string key_from = 1;
+  string key_to = 2;
+}
+
+message CountRequest {}
+
+message KeyValue {
+  string key = 1;
+  bytes value = 2;
+}
+
+message CountResponse {
+  int32 count = 1;
+}
+
+service GrpcStorageService {
+  rpc Put(PutRequest) returns (google.protobuf.Empty);
+  rpc Get(GetRequest) returns (KeyValue);
+  rpc Delete(DeleteRequest) returns (google.protobuf.Empty);
+  rpc Range(RangeRequest) returns (stream KeyValue);
+  rpc Count(CountRequest) returns (CountResponse);
+}

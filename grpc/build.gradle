@@ -1,0 +1,45 @@
+plugins {
+    id "java"
+    id "com.google.protobuf"
+    id "java-library"
+}
+
+group = parent.group
+version = parent.version
+
+dependencies {
+    api "com.google.protobuf:protobuf-java:${protoVersion}"
+    api "io.grpc:grpc-netty:${grpcVersion}"
+    api "io.grpc:grpc-protobuf:${grpcVersion}"
+    api "io.grpc:grpc-stub:${grpcVersion}"
+    api "io.grpc:grpc-all:${grpcVersion}"
+    api "jakarta.annotation:jakarta.annotation-api:${jakartaValidationVersion}"
+    api "javax.annotation:javax.annotation-api:${javaxValidationVersion}"
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:${protocVersion}"
+    }
+    plugins {
+        grpc {
+            artifact = "io.grpc:protoc-gen-grpc-java:${genGrpcVersion}"
+        }
+    }
+    generateProtoTasks {
+        all()*.plugins { grpc {} }
+    }
+}
+
+
+sourceSets {
+    main {
+        java {
+            srcDirs 'build/generated/source/proto/main/java'
+        }
+    }
+}
+
+tasks.test {
+    useJUnitPlatform()
+}

@@ -1,0 +1,8 @@
+tarantool:
+  credentials:
+    username: api_user
+    password: api_user
+  database:
+    host: 127.0.0.1
+    port: 3301
+    space-name: kv

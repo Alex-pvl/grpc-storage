@@ -1,0 +1,87 @@
+plugins {
+    id "java"
+    id "org.springframework.boot"
+    id "io.freefair.lombok"
+}
+
+group = "ru.alexpvl"
+version = "1.0.0"
+
+bootJar {
+    enabled = false
+}
+
+bootRun {
+    mainClass = 'ru.alexpvl.grpcstorage.ServiceApplication'
+}
+
+allprojects {
+    repositories {
+        rootProject.buildscript.repositories.each {
+            repositories.add(it)
+        }
+    }
+}
+
+subprojects {
+    apply plugin: "java"
+    apply plugin: "io.freefair.lombok"
+    apply plugin: 'maven-publish'
+
+    compileJava {
+        options.encoding = "UTF-8"
+        options.compilerArgs = ["-parameters", "-Xlint:unchecked"]
+    }
+
+    compileTestJava {
+        options.encoding = "UTF-8"
+        options.compilerArgs = ["-parameters", "-Xlint:unchecked"]
+    }
+
+    task sourceJar(type: Jar) {
+        from sourceSets.main.allJava
+    }
+
+    tasks.withType(Javadoc) {
+        options.encoding = "UTF-8"
+        options.memberLevel = JavadocMemberLevel.PRIVATE
+        options.addBooleanOption("Xdoclint:all").setValue(true)
+        options.addStringOption("encoding", "UTF-8")
+        options.addStringOption("charSet", "UTF-8")
+    }
+
+    javadoc {
+        source = sourceSets.main.allJava
+    }
+
+    test {
+        systemProperty "spring.profiles.active", "test"
+        systemProperty "user.language", "ru"
+        systemProperty "user.country", "RU"
+
+        useJUnitPlatform {
+            includeEngines "junit-jupiter"
+        }
+        reports {
+            junitXml.required = true
+            html.required = false
+        }
+
+        testLogging {
+            events "skipped", "failed"
+            exceptionFormat = "full"
+
+            debug {
+                events "started", "passed", "skipped", "failed"
+            }
+
+            info {
+                events "passed", "skipped", "failed"
+            }
+        }
+    }
+}
+
+test {
+    useJUnitPlatform()
+}

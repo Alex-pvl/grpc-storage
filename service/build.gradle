@@ -1,0 +1,43 @@
+plugins {
+    id "java"
+    id "org.springframework.boot"
+    id "io.spring.dependency-management"
+}
+
+group = parent.group
+version = parent.version
+
+archivesBaseName = "grpc-storage"
+
+jar {
+    enabled = false
+}
+
+springBoot {
+    mainClass = "ru.alexpvl.grpcstorage.ServiceApplication"
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+dependencies {
+    implementation project(":grpc")
+
+    implementation "org.springframework.boot:spring-boot-starter:${springBootVersion}"
+    implementation "org.springframework.cloud:spring-cloud-starter-bootstrap"
+    implementation "org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}"
+    implementation "org.hibernate.validator:hibernate-validator:${hibernateValidatorVersion}"
+    implementation ("org.springframework.boot:spring-boot-starter-web:${springBootVersion}") {
+        exclude group: "org.springframework.boot", module: "spring-boot-starter-tomcat"
+    }
+    implementation "org.springframework.boot:spring-boot-starter-undertow:${springBootVersion}"
+
+    implementation "io.tarantool:cartridge-driver:${cartridgeDriverVersion}"
+}
+
+test {
+    useJUnitPlatform()
+}
