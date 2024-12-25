@@ -19,7 +19,7 @@ git clone https://github.com/alex-pvl/grpc-storage.git
 cd grpc-storage
 mkdir tarantool && cd tarantool
 tt init
-mkdir kv_storage && cd kv_storage
+cd instances.enabled && mkdir kv_storage && cd kv_storage
 ```
 ```yaml
 # 3. Create config.yaml file with the following content
@@ -48,7 +48,7 @@ instance001:
 ```
 ```bash
 # 5. Start tarantool single instance
-cd .. && tt start kv_storage
+cd ../.. && tt start kv_storage
 ```
 ```bash
 # 6. Check status
