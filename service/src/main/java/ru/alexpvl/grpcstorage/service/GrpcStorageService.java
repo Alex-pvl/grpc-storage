@@ -98,7 +98,7 @@ public class GrpcStorageService extends GrpcStorageServiceGrpc.GrpcStorageServic
 
     @Override
     public void range(RangeRequest request, StreamObserver<KeyValue> responseObserver) {
-        String keyFrom = request.getKeyFrom();
+        String keyFrom = request.getKeySince();
         String keyTo = request.getKeyTo();
 
         try {

@@ -19,7 +19,7 @@ message DeleteRequest {
 }
 
 message RangeRequest {
-  string key_from = 1;
+  string key_since = 1;
   string key_to = 2;
 }
 
